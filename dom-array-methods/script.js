@@ -33,6 +33,24 @@ async function getRandomUser() {
   }
 }
 
+// Double money
+function doubleMoney() {
+  peopleData = peopleData.map(user => {
+    // console.log(user);
+    return { ...user, money: user.money * 2 };
+  });
+
+  updateDOM();
+}
+
+// sort users by richest
+function sortByRichest() {
+  // descending order
+  peopleData.sort((a, b) => b.money - a.money);
+
+  updateDOM();
+}
+
 // Add new obj to data arr
 function addData(obj) {
   peopleData.push(obj);
@@ -51,6 +69,8 @@ function updateDOM(providedData = peopleData) {
     element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(item.money)}`;
     main.appendChild(element);
   });
+
+  console.log(peopleData);
 }
 
 // Format number as money - https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-string
@@ -60,3 +80,5 @@ function formatMoney(number) {
 
 // Event listeners
 addUserBtn.addEventListener('click', getRandomUser);
+doubleBtn.addEventListener('click', doubleMoney);
+sortBtn.addEventListener('click', sortByRichest);
