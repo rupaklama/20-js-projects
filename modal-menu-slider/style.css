@@ -16,6 +16,13 @@ body {
   margin: 0;
 }
 
+body.show-nav {
+  /* 200px - width of the nav */
+  transform: translateX(200px);
+  /* adding transition to transform property for smooth transition */
+  transition: transform 0.6s ease;
+}
+
 nav {
   background-color: var(--primary-color);
   border-right: 2px solid rgba(200, 200, 200, 0.1);
@@ -136,6 +143,12 @@ input[type='submit']:focus {
   transform: translate(-50%, -50%);
   max-width: 100%;
   width: 400px;
+  animation-name: modalopen;
+  animation-duration: var(--modal-duration);
+}
+
+.modal-container.show-modal {
+  display: block;
 }
 
 .modal-header {
@@ -173,4 +186,16 @@ input[type='submit']:focus {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+@keyframes modalopen {
+  /* start - invisible */
+  from {
+    opacity: 0;
+  }
+
+  /* end - fully visible */
+  to {
+    opacity: 1;
+  }
 }
