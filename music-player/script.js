@@ -107,10 +107,17 @@ function updateProgress(e) {
 
 // Set progress bar
 function setProgress(e) {
+  // element width in value
   const width = this.clientWidth;
+
+  // offsetX property returns the x-coordinate VALUE of the mouse cursor,
+  // relative to the target element starting from the left side - progress container
   const clickX = e.offsetX;
+
+  // song duration
   const duration = audio.duration;
 
+  // set the current time of the audio to that click position
   audio.currentTime = (clickX / width) * duration;
 }
 
@@ -136,3 +143,6 @@ audio.addEventListener('timeupdate', updateProgress);
 
 // click on progress bar
 progressContainer.addEventListener('click', setProgress);
+
+// song ends
+audio.addEventListener('ended', nextSong);
