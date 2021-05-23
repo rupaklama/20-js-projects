@@ -28,7 +28,8 @@ select {
 }
 
 select:focus,
-button:focus {
+button:focus,
+input:focus {
   outline: 0;
 }
 
