@@ -78,7 +78,83 @@ function createBox(item) {
   `;
 
   // @todo - speak event
+  box.addEventListener('click', () => {
+    // set text to announce
+    setTextMessage(text);
+
+    // announce text
+    speakText();
+
+    // add active effect
+    box.classList.add('active');
+
+    // quickly remove above class
+    setTimeout(() => box.classList.remove('active'), 800);
+  });
 
   // add it into the main tag to display
   main.appendChild(box);
 }
+
+// init speech synth - to announce custom text which gets store in it
+let message = new SpeechSynthesisUtterance();
+
+// store voices objects
+let voices = [];
+
+// getVoices() method of the SpeechSynthesis interface returns a list of SpeechSynthesisVoice objects
+// representing all the available voices on the current device
+
+function getVoices() {
+  // speechSynthesisInstance.getVoices() - returns A list (array) of SpeechSynthesisVoice objects.
+  voices = speechSynthesis.getVoices();
+
+  // looping through each Voices Objects
+  voices.forEach(voice => {
+    // assigning each object into Option element to display it
+    const option = document.createElement('option');
+
+    // option property to be of Voice object's properties
+    option.value = voice.name;
+    option.innerHTML = `${voice.name} ${voice.lang}`;
+
+    // select element
+    voicesSelect.appendChild(option);
+  });
+}
+
+// set text to announce
+function setTextMessage(text) {
+  // setting text for message
+  message.text = text;
+}
+
+// announce text
+function speakText() {
+  // announcing above set text here
+  speechSynthesis.speak(message);
+}
+
+// on new voices - changed event, run the func again
+speechSynthesis.addEventListener('voiceschanged', getVoices);
+
+// toggle text box
+toggleBtn.addEventListener('click', () => document.getElementById('text-box').classList.toggle('show'));
+
+// close button
+closeBtn.addEventListener('click', () => document.getElementById('text-box').classList.remove('show'));
+
+// set voice based on select element option's value
+voicesSelect.addEventListener('change', e => {
+  // value attrib in 'option' element
+  message.voice = voices.find(voice => voice.name === e.target.value);
+});
+
+// read text button to announce text in text area
+readBtn.addEventListener('click', () => {
+  setTextMessage(textarea.value);
+  speakText();
+});
+
+// calling func
+getVoices();
