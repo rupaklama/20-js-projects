@@ -75,12 +75,20 @@ h1 button {
   left: 0;
   height: 100%;
   width: 100%;
+  transform: translateX(50%) rotateY(-10deg);
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .card.active {
   cursor: pointer;
   opacity: 1;
   z-index: 10;
+  transform: translateX(0) rotateY(0deg);
+}
+
+.card.left {
+  transform: translateX(-50%) rotateY(10deg);
+  
 }
 
 .inner-card {
@@ -89,9 +97,21 @@ h1 button {
   height: 100%;
   width: 100%;
   position: relative;
+  /* 	Specifies that child elements will preserve its 3D position */
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+/* rotate inner card to flip 180 degree */
+.card.show-answer .inner-card{
+  transform: rotateX(180deg);
 }
 
 .inner-card-front, .inner-card-back {
+  /* backface-visibility property defines whether or not the back face of an element should be 
+  visible when facing the user.
+  */
+  backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
@@ -102,4 +122,82 @@ h1 button {
   width: 100%;
   /* hiding question */
   background-color: #fff;
+}
+
+/* default rotate position to start with */
+.inner-card-front {
+  transform: rotateX(0deg);
+  z-index: 2;
+}
+
+.inner-card-back {
+  transform: rotateX(180deg);
+}
+
+/* ::after pseudo-element can be used to insert some content after the content of an element */
+.inner-card-front::after, .inner-card-back::after {
+  content: '\f021  Flip';
+  font-family: 'Font Awesome 5 Free', Lato, sans-serif;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #ddd
+}
+
+.navigation {
+  display: flex;
+  margin: 20px 0;
+}
+
+.navigation .nav-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navigation p {
+  margin: 0 25px;
+}
+
+.add-container {
+  opacity: 0;
+  z-index: -1;
+  background-color: #f0f0f0;
+  border-top: 2px solid #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.add-container.show {
+  opacity: 1;
+  z-index: 2
+}
+
+.add-container h3 {
+  margin: 10px 0;
+}
+
+.form-group label {
+  display: block;
+  margin: 20px 0 10px;
+}
+
+.form-group textarea {
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 12px;
+  min-width: 500px;
+  max-width: 100%;
 }
